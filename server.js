@@ -35,10 +35,13 @@ let urlSchema = new mongoose.Schema({
 let Url = new mongoose.model('Url',urlSchema);
 
 let c; 
+function cargar(){
 Url.countDocuments({},(err,count) =>{
   console.log(count);
   c = count;
 })
+}
+if(c === undefined) cargar();
 //shorturl verification
 app.post('/api/shorturl',parseUrl,(req,res) =>{
   let i =1;
@@ -56,6 +59,7 @@ app.post('/api/shorturl',parseUrl,(req,res) =>{
   else{
     let u = new Url({urlComplete: req.body['url'],i:i+c});
     u.save();
+    c++;
   let body = dns.lookup(array[1],(err,address,family) =>{
     res.send({ original_url : u.urlComplete, short_url : u.i});
   });
@@ -72,6 +76,7 @@ app.get('/api/shorturl/:shorturl',(req,res) =>{
       return console.error(err);
     })
   });
+
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
