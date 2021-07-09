@@ -55,21 +55,19 @@ app.post('/api/shorturl',parseUrl,(req,res) =>{
   }
   else{
     let u = new Url({urlComplete: req.body['url'],i:i+c});
-    u.save((err,u) =>{
-      if(err) return console.error(err);
-      console.log('Creado:',u)
-    });
+    u.save();
   let body = dns.lookup(array[1],(err,address,family) =>{
     res.send({ original_url : u.urlComplete, short_url : u.i});
   });
   }
 });
 app.get('/api/shorturl/:shorturl?',(req,res) =>{
-  //console.log(req.params);
-  let n = req.params.shorturl.split(/\D/)[1];
-  Url.find({i: parseInt(n)},(err,found) =>{
+  console.log(req.params);
+  let n = parseInt(req.params.shorturl);
+  Url.findOne({i: parseInt(n)},(err,found) =>{
     if(err) return console.error(err);
-    res.redirect(found[0].urlComplete);
+    console.log(found.urlComplete);
+    res.redirect(found.urlComplete);
   })
 });
 
