@@ -18,14 +18,17 @@ app.get('/', function(req, res) {
 app.get('/api/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
+let parseUrl = bodyParse.urlencoded({extended:false});
 //shorturl verification
-app.use('/api/:shorturl?',bodyParse.urlencoded({extended:false}),(req,res) =>{
-  let array = req.body.url.split(/[:/]/);
+app.post('/api/:shorturl?',parseUrl,(req,res) =>{
+  let array = [];
+  array.push(req.body.url.substring(0,req.body.url.indexOf(':')),req.body.url.substring(req.body.url.indexOf('/')+2));
+  console.log(array);
   if(array[0] !== 'https' && array[0] !== 'http'){
     res.send({error: 'invalid ulr'});
   }
   else{
-  let body = dns.lookup(array[3],(err,address,family) =>{
+  let body = dns.lookup(array[1],(err,address,family) =>{
     res.send({ original_url : body.hostname, short_url : address.split('.')[1]});
   });
 }
