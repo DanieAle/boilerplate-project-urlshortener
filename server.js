@@ -61,15 +61,17 @@ app.post('/api/shorturl',parseUrl,(req,res) =>{
   });
   }
 });
-app.get('/api/shorturl/:shorturl?',(req,res) =>{
-  console.log(req.params);
+app.get('/api/shorturl/:shorturl',(req,res) =>{
+  console.log(req.params,req.body);
   let n = parseInt(req.params.shorturl);
-  Url.findOne({i: parseInt(n)},(err,found) =>{
-    if(err) return console.error(err);
-    console.log(found.urlComplete);
-    res.redirect(found.urlComplete);
-  })
-});
+  Url.findOne({i: n})
+  .then(found =>{
+      res.redirect(found.urlComplete);
+    })
+    .catch(err =>{
+      return console.error(err);
+    })
+  });
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
