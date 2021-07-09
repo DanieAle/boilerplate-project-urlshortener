@@ -1,6 +1,7 @@
 {
   "name": "shorturl",
   "version": "0.0.3",
+  "author": "Ibrahim Daniel Alejandro",
   "description": "API project for freeCodeCamp",
   "main": "server.js",
   "scripts": {
