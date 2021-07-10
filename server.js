@@ -8,8 +8,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 // Basic Configuration
 const port = process.env.PORT || 3000;
-process.env.MONGO_URI=`mongodb+srv://Tetkas:159753@cluster0.rzvzm.mongodb.net/Prueba?
-retryWrites=true&w=majority`
+process.env.MONGO_URI=//ADD HERE URL TO MONGODB DATABASE
 app.use(cors());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
